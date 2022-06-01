@@ -21,7 +21,7 @@ export default function Form() {
     settings.setItemsPerPage(items);
     settings.setShowCompleted(completed);
     // eslint-disable-next-line
-  }, [settings,completed,items, settings.setItemsPerPage,settings.setShowCompleted]);
+  }, [settings.completed]);
   return (
     <>
       <div>

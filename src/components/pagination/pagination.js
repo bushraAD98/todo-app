@@ -16,7 +16,7 @@ export default function Pagination(props) {
   useEffect(() => {
     setChoosenList(settings.showCompleted ? props.list : props.incomplete);
     setActiveList(choosenList);
-    setNumberOfPages(Math.ceil(choosenList.length / settings.itemsPerPage));
+    setNumberOfPages(Math.ceil(choosenList.length /parseInt( settings.itemsPerPage)));
   }, [props.list, props.incomplete, choosenList, settings.itemsPerPage,settings.showCompleted]);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function Pagination(props) {
   return (
     <>
       <br />
-      <List activeList={activeList} toggleComplete={props.toggleComplete} />
+      <List activeList={activeList} toggleComplete={props.toggleComplete}  deleteItem={props.deleteItem}/>
       {console.log('buttonsArray', buttonsArray)}
       <br />
 
