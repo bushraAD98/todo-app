@@ -1,11 +1,17 @@
+import React from 'react';
+// import './css/style.css';
 
-import './App.css';
+import ToDo from './components/todo/todo.js';
+import SettingsProvider from './context/settings';
+import Header from './components/header/header';
 
-function App() {
-  return (
-   <>
-   </>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <SettingsProvider>
+        <Header />
+        <ToDo />
+      </SettingsProvider>
+    );
+  }
 }
-
-export default App;
