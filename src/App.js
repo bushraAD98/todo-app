@@ -1,17 +1,20 @@
-import React from 'react';
-// import './css/style.css';
+import React from "react";
+import "./scss/style.scss";
 
-import ToDo from './components/todo/todo.js';
-import SettingsProvider from './context/settings';
-import Header from './components/header/header';
+import ToDo from "./components/todo/todo.js";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <SettingsProvider>
-        <Header />
-        <ToDo />
-      </SettingsProvider>
-    );
-  }
+import Header from "./components/header/header";
+import Form from "./context/Form";
+import { Routes, Route } from "react-router-dom";
+
+export default function App() {
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<ToDo />} />
+        <Route path="/settings" element={<Form />} />
+      </Routes>
+    </>
+  );
 }
