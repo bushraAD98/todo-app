@@ -4,25 +4,29 @@ import Pagination from "../pagination/pagination";
 import { Button, FormGroup, InputGroup } from "@blueprintjs/core";
 import { SettingsContext } from '../../context/settings';
 import { v4 as uuid } from "uuid";
-
+import {When} from 'react-if'
+import {LoginContext} from '../../context/Login-context';
+import Login from '../Login';
 const ToDo = () => {
   const settings = useContext(SettingsContext);
-  const [list, setList] = useState([]);
+  const login = useContext(LoginContext)
+  const [list, setList] = useState(JSON.parse(localStorage.getItem('list')) ||[]);
   const [incomplete, setIncomplete] = useState([]);
   const { handleChange, handleSubmit } = useForm(addItem);
 
   function addItem(item) {
     console.log(item);
+    localStorage.setItem('list',JSON.stringify([...list, item]))
     item.id = uuid();
     item.complete = false;
     console.log("item", item);
     setList([...list, item]);
   }
 
-  //   function deleteItem (id) {
-  //     const items = list.filter((item) => item.id !== id);
-  //     setList(items);
-  //   }
+    function deleteItem (id) {
+      const items = list.filter((item) => item.id !== id);
+      setList(items);
+    }
 
   function toggleComplete(id) {
 
@@ -45,11 +49,14 @@ const ToDo = () => {
 
   return (
     <>
+    <When condition={login.loggedIn}>
+
+ 
       <div className="form-container">
         <header>
           <h1>To Do List: {incomplete.length} items pending</h1>
         </header>
-
+<When condition={login.canDo('create')}> 
         <h2>Add To Do Item</h2>
         <form onSubmit={handleSubmit}>
           <FormGroup
@@ -97,6 +104,7 @@ const ToDo = () => {
             <Button type="submit">Add Item</Button>
           </label>
         </form>
+        </When> 
       </div>
 
       <Pagination
@@ -104,7 +112,13 @@ const ToDo = () => {
         list={list}
         incomplete={incomplete}
         toggleComplete={toggleComplete}
+        deleteItem={deleteItem}
       ></Pagination>
+         </When>
+
+         <When condition={!login.loggedIn}>
+<Login/>
+         </When>
     </>
   );
 };
