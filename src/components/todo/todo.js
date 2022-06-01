@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext } from "react";
 import useForm from "../../hooks/form.js";
 import Pagination from "../pagination/pagination";
 import { Button, FormGroup, InputGroup } from "@blueprintjs/core";
-
+import { SettingsContext } from '../../context/settings';
 import { v4 as uuid } from "uuid";
 
 const ToDo = () => {
+  const settings = useContext(SettingsContext);
   const [list, setList] = useState([]);
   const [incomplete, setIncomplete] = useState([]);
   const { handleChange, handleSubmit } = useForm(addItem);
@@ -24,7 +25,7 @@ const ToDo = () => {
   //   }
 
   function toggleComplete(id) {
-    console.log("hello from toggle", id);
+
     const items = list.map((item) => {
       if (item.id === id) {
         item.complete = !item.complete;
@@ -39,7 +40,8 @@ const ToDo = () => {
     let incompleteCount = list.filter((item) => !item.complete);
     setIncomplete(incompleteCount);
     document.title = `To Do List: ${incomplete.length}`;
-  }, [list, incomplete.length]);
+        // eslint-disable-next-line
+  }, [list,settings.showCompleted]);
 
   return (
     <>
